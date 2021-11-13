@@ -27,6 +27,11 @@ namespace TestApp.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder => { builder.WithOrigins(Configuration["CorsSettings:AllowedOrigin"]).AllowAnyMethod().AllowAnyHeader().SetIsOriginAllowed((host) => true).AllowCredentials(); });
+            });
+
             var ConnectionString = Configuration.GetConnectionString("TestAppDb");
             services.AddDbContext<TestAppDbContext>(options => options.UseSqlServer(ConnectionString));
 
@@ -38,6 +43,8 @@ namespace TestApp.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -50,7 +57,7 @@ namespace TestApp.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-            });
+            });            
         }
     }
 }

@@ -52,13 +52,13 @@ namespace TestApp.Api.Core
             {
                 if (!string.IsNullOrWhiteSpace(searchString) && returnTopRecordsCount > 0)
                 {
-                    var lookupWeighted = LookupWeighted(searchString, returnTopRecordsCount);
+                    var lookupWeighted = await LookupWeighted(searchString, returnTopRecordsCount);
 
                     var startMatchAlpha = (from w in testAppDbContext.LookupWords
                                             where EF.Functions.Like(w.Word, $"{searchString}%")
                                             select w).OrderBy(x => x.Word);
 
-                    var excludedWeighted = startMatchAlpha.Where(x => !lookupWeighted.Result.Select(y => y.Id).Contains(x.Id));
+                    var excludedWeighted = startMatchAlpha.Where(x => !lookupWeighted.Select(y => y.Id).Contains(x.Id));
                     result = await excludedWeighted.Take(returnTopRecordsCount).ToListAsync();
                 }
                 else
@@ -84,15 +84,15 @@ namespace TestApp.Api.Core
             {
                 if (!string.IsNullOrWhiteSpace(searchString) && returnTopRecordsCount > 0)
                 {
-                    var lookupWeighted = LookupWeighted(searchString, returnTopRecordsCount);
-                    var startMatchAlpha = LookupStartMatchAlphabetical(searchString, returnTopRecordsCount);
+                    var lookupWeighted = await LookupWeighted(searchString, returnTopRecordsCount);
+                    var startMatchAlpha = await LookupStartMatchAlphabetical(searchString, returnTopRecordsCount);
 
                     var containingMatchAlpha = (from w in testAppDbContext.LookupWords
                                             where EF.Functions.Like(w.Word, $"%{searchString}%")
                                             select w).OrderBy(x => x.Word);
 
-                    var excludeWeighted = containingMatchAlpha.Where(x => !lookupWeighted.Result.Select(y => y.Id).Contains(x.Id));
-                    var excludeStartMatchAlpha = excludeWeighted.Where(x => !startMatchAlpha.Result.Select(y => y.Id).Contains(x.Id));
+                    var excludeWeighted = containingMatchAlpha.Where(x => !lookupWeighted.Select(y => y.Id).Contains(x.Id));
+                    var excludeStartMatchAlpha = excludeWeighted.Where(x => !startMatchAlpha.Select(y => y.Id).Contains(x.Id));
 
                     result = await excludeStartMatchAlpha.Take(returnTopRecordsCount).ToListAsync();
                 }

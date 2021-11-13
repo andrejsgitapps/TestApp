@@ -45,6 +45,8 @@ namespace TestApp.Api.Controllers
             return containingMatchLookupResults.Select(x => new LookupWordModel { Id = x.Id, Word = x.Word }).ToList();
         }
 
+        [Route("[action]")]
+        [HttpPost]
         public async Task<bool> SelectWord([FromBody] SelectWordModel model)
         {
             return await wordsLookupService.SelectWord(model.SearchString, model.LookupWordId);
