@@ -58,6 +58,7 @@ namespace TestApp.Api.Core
                                             where EF.Functions.Like(w.Word, $"{searchString}%")
                                             select w).OrderBy(x => x.Word);
 
+                    // excluded weighted lookup results
                     var excludedWeighted = startMatchAlpha.Where(x => !lookupWeighted.Select(y => y.Id).Contains(x.Id));
                     result = await excludedWeighted.Take(returnTopRecordsCount).ToListAsync();
                 }
@@ -91,7 +92,9 @@ namespace TestApp.Api.Core
                                             where EF.Functions.Like(w.Word, $"%{searchString}%")
                                             select w).OrderBy(x => x.Word);
 
+                    // excluded weighted lookup results
                     var excludeWeighted = containingMatchAlpha.Where(x => !lookupWeighted.Select(y => y.Id).Contains(x.Id));
+                    // excluded start match alphabetical results
                     var excludeStartMatchAlpha = excludeWeighted.Where(x => !startMatchAlpha.Select(y => y.Id).Contains(x.Id));
 
                     result = await excludeStartMatchAlpha.Take(returnTopRecordsCount).ToListAsync();

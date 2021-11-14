@@ -4,11 +4,10 @@ The app consists of following folders:
 - Database - contains sql script db_script.sql
 - TestApp.Api.Tests - contains unit tests for API (not mentioned in the task, but needed for unit tests)
 
-To open all projects in Visual Studio just open TestApp.sln file in VS
+To open all projects in Visual Studio open TestApp.sln file in VS
 
 The BackEnd:
 - .NET 5, Web Api (action-based rest)
-- requires to install EF Core package
 - packages: EF Core
 - appsettings file contains connection string to database - feel free to change it as needed to connect to your mssql
 - to launch it: Ctrl+F5
@@ -22,6 +21,7 @@ The BackEnd:
 The UI:
 - React, Typescript
 - has been built based on default VS template for React apps. Developed changes are only in one file - words-lookup.tsx (we could also use VS Code, it's just to have everything in one solution)
+- the code can be split to separate components, but for simplicity has put everything in one file. Normally api calls and interfaces should be separated in a service or store
 - to launch it: Ctrl+F5
 
 The Database:
@@ -30,3 +30,5 @@ The Database:
 - in case of errors in db just drop this db and run this script once again
 
 Unit tests can be executed from Visual Studio. Included only main tests based on cases mentioned in the task to minimize effort for this test task 
+
+*Not sure if my understanding of the task is the same as you have, cannot ask this. In point 3.b was not mentioned to exclude weighted results, but according to test scenarios it looks so
