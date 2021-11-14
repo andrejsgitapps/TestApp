@@ -19,7 +19,7 @@ CREATE TABLE SearchStrings (
 	Weight INT NOT NULL DEFAULT(0)
 )
 
-CREATE INDEX idx_LookpWords_SWL
+CREATE INDEX idx_LookpWords_Word
 ON LookupWords(Word)
 
 CREATE INDEX idx_SearchStrings_SWL

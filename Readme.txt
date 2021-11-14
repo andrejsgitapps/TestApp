@@ -30,5 +30,6 @@ The Database:
 - in case of errors in db just drop this db and run this script once again
 
 Unit tests can be executed from Visual Studio. Included only main tests based on cases mentioned in the task to minimize effort for this test task 
+Package used: EF Core InMemory db
 
 *Not sure if my understanding of the task is the same as you have, cannot ask this. In point 3.b was not mentioned to exclude weighted results, but according to test scenarios it looks so
