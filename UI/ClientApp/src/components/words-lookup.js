@@ -67,7 +67,7 @@ var WordsLookup = function () {
         })
             .catch(function (err) { return console.error(err); });
     };
-    var selectSuggestionApi = function (suggestion, searchString) {
+    var selectSuggestion = function (suggestion, searchString) {
         var selectWordModel = { searchString: searchString, lookupWordId: suggestion.id };
         var json = JSON.stringify(selectWordModel);
         return fetch(apiUrl + 'selectword', {
@@ -92,11 +92,10 @@ var WordsLookup = function () {
         }
         else {
             setWeightedSuggestions([]);
+            setStartMatchAlphaSuggestions([]);
+            setContainMatchAlphaSuggestions([]);
         }
         setSearchString(value);
-    };
-    var selectSuggestion = function (suggestion) {
-        selectSuggestionApi(suggestion, searchString);
     };
     var renderSuggestions = function () {
         if (searchString.length >= searchTextMinLength) {
@@ -105,21 +104,21 @@ var WordsLookup = function () {
                 weightedSuggestionsList = React.createElement("li", null, "Nothing found in weighted lookup.");
             }
             else {
-                weightedSuggestionsList = weightedSuggestions.map(function (suggestion) { return React.createElement("li", { key: suggestion.id, onClick: function (e) { return selectSuggestion(suggestion); } }, suggestion.name); });
+                weightedSuggestionsList = weightedSuggestions.map(function (suggestion) { return React.createElement("li", { key: suggestion.id, onClick: function (e) { return selectSuggestion(suggestion, searchString); } }, suggestion.name); });
             }
             var startMatchAlphaSuggestionsList = void 0;
             if (startMatchAlphaSuggestions.length === 0) {
                 startMatchAlphaSuggestionsList = React.createElement("li", null, "Nothing found in start match alphabetical lookup.");
             }
             else {
-                startMatchAlphaSuggestionsList = startMatchAlphaSuggestions.map(function (suggestion) { return React.createElement("li", { key: suggestion.id, onClick: function (e) { return selectSuggestion(suggestion); } }, suggestion.name); });
+                startMatchAlphaSuggestionsList = startMatchAlphaSuggestions.map(function (suggestion) { return React.createElement("li", { key: suggestion.id, onClick: function (e) { return selectSuggestion(suggestion, searchString); } }, suggestion.name); });
             }
             var containMatchAlphaSuggestionsList = void 0;
             if (containMatchAlphaSuggestions.length === 0) {
                 containMatchAlphaSuggestionsList = React.createElement("li", null, "Nothing found in containing match alphabetical lookup.");
             }
             else {
-                containMatchAlphaSuggestionsList = containMatchAlphaSuggestions.map(function (suggestion) { return React.createElement("li", { key: suggestion.id, onClick: function (e) { return selectSuggestion(suggestion); } }, suggestion.name); });
+                containMatchAlphaSuggestionsList = containMatchAlphaSuggestions.map(function (suggestion) { return React.createElement("li", { key: suggestion.id, onClick: function (e) { return selectSuggestion(suggestion, searchString); } }, suggestion.name); });
             }
             return (React.createElement("ul", null,
                 React.createElement("lh", null,

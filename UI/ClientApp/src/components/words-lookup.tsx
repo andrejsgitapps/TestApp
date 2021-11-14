@@ -40,11 +40,9 @@ export const WordsLookup = () => {
             .then(response => response.json())
             .then(data => {
                 let newSuggestions: Suggestion[] = [];                
-
                 for (var i = 0; i < data.length; i++) {
                     newSuggestions.push({ id: data[i].id, name: data[i].word });
                 }
-
                 setWeightedSuggestions(newSuggestions);                
             })
             .catch(err => console.error(err));
@@ -62,11 +60,9 @@ export const WordsLookup = () => {
             .then(response => response.json())
             .then(data => {
                 let newSuggestions: Suggestion[] = [];
-
                 for (var i = 0; i < data.length; i++) {
                     newSuggestions.push({ id: data[i].id, name: data[i].word });
                 }
-
                 setStartMatchAlphaSuggestions(newSuggestions);                
             })
             .catch(err => console.error(err));
@@ -84,17 +80,15 @@ export const WordsLookup = () => {
             .then(response => response.json())
             .then(data => {
                 let newSuggestions: Suggestion[] = [];
-
                 for (var i = 0; i < data.length; i++) {
                     newSuggestions.push({ id: data[i].id, name: data[i].word });
                 }
-
                 setContainMatchAlphaSuggestions(newSuggestions);                
             })
             .catch(err => console.error(err));
     }
 
-    const selectSuggestionApi = (suggestion: Suggestion, searchString: String) => {
+    const selectSuggestion = (suggestion: Suggestion, searchString: String) => {
         const selectWordModel: SelectWordModel = { searchString: searchString, lookupWordId: suggestion.id }
         const json = JSON.stringify(selectWordModel);        
 
@@ -120,13 +114,11 @@ export const WordsLookup = () => {
         if (value.length >= searchTextMinLength) {
             reloadAllSuggestions(value);
         } else {
-            setWeightedSuggestions([]);            
+            setWeightedSuggestions([]);
+            setStartMatchAlphaSuggestions([]);
+            setContainMatchAlphaSuggestions([]);
         }
         setSearchString(value);
-    }
-
-    const selectSuggestion = (suggestion: Suggestion) => {
-        selectSuggestionApi(suggestion, searchString);
     }
 
     const renderSuggestions = () => {
@@ -136,21 +128,21 @@ export const WordsLookup = () => {
             if (weightedSuggestions.length === 0) {
                 weightedSuggestionsList = <li>Nothing found in weighted lookup.</li>
             } else {
-                weightedSuggestionsList = weightedSuggestions.map(suggestion => <li key={suggestion.id} onClick={(e) => selectSuggestion(suggestion)}>{suggestion.name}</li>)
+                weightedSuggestionsList = weightedSuggestions.map(suggestion => <li key={suggestion.id} onClick={(e) => selectSuggestion(suggestion, searchString)}>{suggestion.name}</li>)
             }
 
             let startMatchAlphaSuggestionsList: any;
             if (startMatchAlphaSuggestions.length === 0) {
                 startMatchAlphaSuggestionsList = <li>Nothing found in start match alphabetical lookup.</li>
             } else {
-                startMatchAlphaSuggestionsList = startMatchAlphaSuggestions.map(suggestion => <li key={suggestion.id} onClick={(e) => selectSuggestion(suggestion)}>{suggestion.name}</li>)
+                startMatchAlphaSuggestionsList = startMatchAlphaSuggestions.map(suggestion => <li key={suggestion.id} onClick={(e) => selectSuggestion(suggestion, searchString)}>{suggestion.name}</li>)
             }
 
             let containMatchAlphaSuggestionsList: any;
             if (containMatchAlphaSuggestions.length === 0) {
                 containMatchAlphaSuggestionsList = <li>Nothing found in containing match alphabetical lookup.</li>
             } else {
-                containMatchAlphaSuggestionsList = containMatchAlphaSuggestions.map(suggestion => <li key={suggestion.id} onClick={(e) => selectSuggestion(suggestion)}>{suggestion.name}</li>)
+                containMatchAlphaSuggestionsList = containMatchAlphaSuggestions.map(suggestion => <li key={suggestion.id} onClick={(e) => selectSuggestion(suggestion, searchString)}>{suggestion.name}</li>)
             }
 
             return (
