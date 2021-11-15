@@ -7,15 +7,15 @@ The app consists of following folders:
 To open all projects in Visual Studio open TestApp.sln file in VS
 
 The BackEnd:
-- .NET 5, Web Api (action-based rest)
+- .NET 5 (you may need to install the latest VS2019 update), Web Api (action-based rest)
 - packages: EF Core
 - appsettings file contains connection string to database - feel free to change it as needed to connect to your mssql
 - to launch it: Ctrl+F5
 - has following subfolders:
 	- Controllers - web api controller
 	- Models - models for web api
-	- Core - domain service with business logic to lookup words
-	- Dal - data access layer containing database models and db context (database-first approach used here since we must use sql to generate db, but could be easily changed to code-first if would be allowed)
+	- Core - domain service with business logic to lookup words (normally it should accept an interface in constructor, now it is for simplicity)
+	- Dal - data access layer containing database models and db context (database-first approach used here since we must use sql to generate db, but could be easily changed to code-first if would be allowed). Normally repositories worth to create, but skipped it here
 - in case UI app port will be changed bear in mind to change in appsettings cors allowed host to not having issues with it
 
 The UI:
